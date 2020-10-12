@@ -7,42 +7,34 @@ end
 
 Vagrant.configure("2") do |config|
 
+
+  config.vm.box = 'centos/8'
+
+  config.vm.provision 'file',
+    source: '~/.ssh/id_rsa.pub',
+    destination: '/home/vagrant/pubkey'
+
+  config.vm.provision 'shell',
+    run: 'once',
+    inline: <<-SHELL
+      mkdir -p /root/.ssh/
+      rm -f /root/.ssh/authorized_keys
+      cp /home/vagrant/pubkey /root/.ssh/authorized_keys
+      cp /home/vagrant/pubkey /home/vagrant/.ssh/authorized_keys
+      rm -f /home/vagrant/pubkey
+      SHELL
   
-  config.vm.define "master" do |master|
-    master.vm.box = "centos/8"
-    master.vm.network "private_network", type: "dhcp"
-    master.vm.hostname = "master.vm.local"
-    master.disksize.size = "50GB"
-    
 
+  {
+    'master' => '192.168.33.10',
+    'slave' => '192.168.33.11'
+
+  }.each do |name, ip|
+    config.vm.define name do |host|
+
+      host.vm.network 'private_network', ip: ip
+      host.vm.hostname = "#{name}.myapp.dev"
+
+    end
   end
-
-  config.vm.define "slave" do |slave|
-    slave.vm.box = "centos/8"
-    slave.vm.network "private_network", type: "dhcp"
-    slave.vm.hostname = "slave.vm.local"
-    slave.disksize.size = "50GB"
-
-
-  end
-
-  #Shell provisioning
-  config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/aut.pub"
-  config.vm.provision "shell", inline: "cat ~vagrant/.ssh/aut.pub >> ~vagrant/.ssh/authorized_keys"
-  
-  #Ansible provisioning
-  config.vm.provision "ansible" do |ansible|
-    
-    ansible.limit = "all"
-
-    ansible.groups = {
-      "swarm-master" => ["master"],
-      "swarm-workers" => ["slave"],
-      "nodes" => ["master", "slave"]
-    }
-
-    ansible.playbook = "provisioning/playbook.yml"
-  end
-
-
 end

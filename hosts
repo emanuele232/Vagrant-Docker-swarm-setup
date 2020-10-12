@@ -1,0 +1,6 @@
+[swarm-manager]
+master.myapp.dev
+
+[swarm-worker]
+slave.myapp.dev
+
