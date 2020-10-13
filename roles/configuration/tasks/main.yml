@@ -26,13 +26,11 @@
 
 - name: Install Packages
   yum: 
-    name: "{{ item }}" 
+    name: 
+      - 'tcpdump'
+      - 'wget'
+      - 'openssl'
+      - 'curl'
     state: present
     update_cache: yes
-  with_items:
-    - ntp
-    - python
-    - tcpdump
-    - wget
-    - openssl
-    - curl
+

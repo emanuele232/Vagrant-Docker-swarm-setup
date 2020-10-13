@@ -3,3 +3,9 @@
   hosts: all
   roles:
     - configuration
+  
+- name: Install Docker
+  hosts: all
+  roles: 
+    - install-docker
+  become_user: docker
