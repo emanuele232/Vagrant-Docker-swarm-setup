@@ -21,7 +21,10 @@ Vagrant.configure("2") do |config|
       rm -f /root/.ssh/authorized_keys
       cp /home/vagrant/pubkey /root/.ssh/authorized_keys
       cp /home/vagrant/pubkey /home/vagrant/.ssh/authorized_keys
+      chown root:root /root/.ssh/authorized_keys
+      chmod 600 /root/.ssh/authorized_keys
       rm -f /home/vagrant/pubkey
+
       SHELL
   
 
