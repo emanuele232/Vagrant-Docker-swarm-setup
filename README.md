@@ -1,2 +1,2 @@
-# Vagrant-Docker-swarm-setup
+# Vagrant-DockerSwarm-setup
 A Vagrant configurations that deploys a Docker swarm using Ansible
