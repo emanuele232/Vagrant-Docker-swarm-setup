@@ -1,0 +1,13 @@
+---
+
+- name: e
+  debug:
+    msg: "{{ hostvars['master.myapp.dev']['join_token'] }}"
+
+
+- name: Join the swarm
+  docker_swarm: 
+    state: join
+    join_token: "{{ hostvars['master.myapp.dev']['join_token'] }}"
+    advertise_addr: "{{ worker_ip }}"
+    remote_addrs: "{{ manager_ip }}:2377"

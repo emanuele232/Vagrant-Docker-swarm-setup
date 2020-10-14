@@ -54,6 +54,11 @@
     state: "{{ docker_package_state }}"
   notify: restart docker
 
+- name: install pip Docker
+  pip:
+    name: docker
+    state: present
+
 - name: Ensure Docker is started and enabled at boot.
   service:
     name: docker

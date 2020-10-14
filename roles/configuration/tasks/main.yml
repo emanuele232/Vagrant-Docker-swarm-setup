@@ -31,6 +31,9 @@
       - 'wget'
       - 'openssl'
       - 'curl'
+      - epel-release
+      - python3
+      
     state: present
     update_cache: yes
 

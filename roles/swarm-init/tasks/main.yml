@@ -1,0 +1,22 @@
+---
+
+- name: init Docker Swarm
+  docker_swarm:
+    state: present
+    advertise_addr: '{{ manager_ip }}:2377'
+
+- name: Register Docker Swarm info
+  docker_swarm:
+    name: Swarm
+    state: inspect
+  register : swarm_status
+  
+- name: Set fact for swarm join-token
+  set_fact:
+    join_token: "{{ swarm_status['swarm_facts']['JoinTokens']['Worker'] }}"
+
+
+
+
+
+

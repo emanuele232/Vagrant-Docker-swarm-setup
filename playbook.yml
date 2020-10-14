@@ -9,3 +9,15 @@
   roles: 
     - install-docker
   become_user: docker
+
+- name: initialize Docker Swarm
+  hosts: swarm-manager
+  roles:
+    - swarm-init
+  become_user: docker
+
+- name: add workers to the swarm-init
+  hosts: swarm-workers
+  roles:
+    - swarm-join
+  become_user: docker
