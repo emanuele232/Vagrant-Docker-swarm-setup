@@ -1,5 +1,4 @@
 ---
-
 - name: ensure github.com is a known host
   become: yes
   lineinfile:

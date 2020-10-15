@@ -16,7 +16,7 @@
     - client/private
     - client/csr
     - client/crt
-    
+
 - name: Craete directories for setting up the connection
   file:
     path: /etc/systemd/system/docker.service.d/
@@ -98,7 +98,7 @@
     mode: "0755"
 
 - name: Copy docker configuration
-  copy: 
+  copy:
     src: daemon.json
     dest: /etc/docker/daemon.json
     mode: "0755"

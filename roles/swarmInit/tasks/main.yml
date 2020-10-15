@@ -9,7 +9,7 @@
     name: Swarm
     state: inspect
   register : swarm_status
-  
+
 - name: Set fact for swarm join-token
   set_fact:
     join_token: "{{ swarm_status['swarm_facts']['JoinTokens']['Worker'] }}"
