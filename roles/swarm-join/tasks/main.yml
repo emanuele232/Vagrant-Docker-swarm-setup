@@ -1,7 +1,7 @@
 ---
 
 - name: Join the swarm
-  docker_swarm: 
+  docker_swarm:
     state: join
     join_token: "{{ hostvars['master.myapp.dev']['join_token'] }}"
     advertise_addr: "{{ worker_ip }}"

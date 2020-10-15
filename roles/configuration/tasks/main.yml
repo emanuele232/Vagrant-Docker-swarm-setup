@@ -11,7 +11,7 @@
     mode: 0600
 
 - name: Create Sudo User
-  user: 
+  user:
     name: docker
     groups: [wheel]
     shell: /bin/bash
@@ -19,21 +19,20 @@
     state: present
 
 - name: Set Passwordless SSH Access for docker user
-  copy: 
+  copy:
     src: sudoers
     dest: /etc/sudoers.d
     mode: 0440
 
 - name: Install Packages
-  yum: 
-    name: 
+  yum:
+    name:
       - 'tcpdump'
       - 'wget'
       - 'openssl'
       - 'curl'
       - epel-release
       - python3
-      
     state: present
     update_cache: yes
 

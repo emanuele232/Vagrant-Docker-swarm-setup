@@ -1,14 +1,13 @@
 ---
-#
 - name: ensure older Docker versions are unistalled
   yum:
     name: 
-      - docker-client 
-      - docker-client-latest 
-      - docker-common 
-      - docker-latest 
-      - docker-latest-logrotate 
-      - docker-logrotate 
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
       - docker-engine
     state: absent
 

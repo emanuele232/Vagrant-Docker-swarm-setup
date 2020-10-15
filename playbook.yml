@@ -3,29 +3,33 @@
   hosts: all
   roles:
     - configuration
-  
+
 - name: Install Docker
   hosts: all
-  roles: 
+  roles:
     - install-docker
   become_user: docker
+  become: yes
 
 - name: Setup secured API connection
   hosts: all
   roles:
-    - setup_secure_connection
+    - setup-secure-connection
   become_user: docker
+  become: yes
 
 - name: initialize Docker Swarm
   hosts: swarm-manager
   roles:
     - swarm-init
   become_user: docker
+  become: yes
 
 - name: add workers to the swarm-init
   hosts: swarm-workers
   roles:
     - swarm-join
   become_user: docker
+  become: yes
 
 
