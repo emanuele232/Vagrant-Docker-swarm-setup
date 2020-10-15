@@ -102,7 +102,7 @@
 - name: Fetch required certificates for the secure connections
   fetch:
     src: "{{item}}"
-    dest: "/tmp/{{item}}"
+    dest: "/tmp/{{ inventory_hostname }}/{{item}}"
     flat: yes
   with_items:
     - /etc/ssl/crt/ca.crt

@@ -11,7 +11,7 @@
   become_user: docker
 
 - name: Setup secured API connection
-  hosts: swarm-manager
+  hosts: all
   roles:
     - setup_secure_connection
   become_user: docker
