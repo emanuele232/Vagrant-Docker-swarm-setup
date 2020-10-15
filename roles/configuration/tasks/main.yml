@@ -26,10 +26,7 @@
 - name: Install Packages
   yum:
     name:
-      - 'tcpdump'
-      - 'wget'
       - 'openssl'
-      - 'curl'
       - epel-release
       - python3
     state: present
