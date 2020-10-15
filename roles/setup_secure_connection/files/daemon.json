@@ -1,0 +1,13 @@
+{
+    "debug": false,
+    "experimental": true,
+    "hosts": ["unix:///var/run/docker.sock", "tcp://0.0.0.0:2376"],
+    "labels": ["foo=bar", "fez=baz"],
+    "log-driver": "json-file",
+    "log-opts": {"max-size": "10m", "max-file": "3"},
+    "storage-driver": "overlay2",
+    "tlscacert": "/etc/ssl/crt/ca.crt",
+    "tlscert": "/etc/ssl/server/crt/server.crt",
+    "tlskey": "/etc/ssl/server/private/server-key.pem",
+    "tlsverify": true
+    }

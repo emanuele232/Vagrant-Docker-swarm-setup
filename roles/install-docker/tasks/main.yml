@@ -85,7 +85,3 @@
     dest: "{{ docker_compose_path }}"
     mode: 0755
 
-- name: Start Docker daemon at boot
-  systemd: 
-    name: docker
-    enabled: yes

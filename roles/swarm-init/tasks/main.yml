@@ -1,5 +1,4 @@
 ---
-
 - name: init Docker Swarm
   docker_swarm:
     state: present

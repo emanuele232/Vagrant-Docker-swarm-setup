@@ -10,6 +10,12 @@
     - install-docker
   become_user: docker
 
+- name: Setup secured API connection
+  hosts: swarm-manager
+  roles:
+    - setup_secure_connection
+  become_user: docker
+
 - name: initialize Docker Swarm
   hosts: swarm-manager
   roles:
@@ -21,3 +27,5 @@
   roles:
     - swarm-join
   become_user: docker
+
+

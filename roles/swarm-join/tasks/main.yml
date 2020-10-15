@@ -1,10 +1,5 @@
 ---
 
-- name: e
-  debug:
-    msg: "{{ hostvars['master.myapp.dev']['join_token'] }}"
-
-
 - name: Join the swarm
   docker_swarm: 
     state: join

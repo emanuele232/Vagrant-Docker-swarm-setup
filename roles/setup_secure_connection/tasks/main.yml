@@ -1,0 +1,123 @@
+---
+- name: Crete directories for certs
+  file:
+    path: /etc/ssl/{{item}}
+    state: directory
+  with_items: 
+    - private
+    - csr
+    - crt
+    - server
+    - server/private
+    - server/csr
+    - server/crt
+    - client
+    - client/private
+    - client/csr
+    - client/crt
+  
+- name: Crete directories for setting up the connection
+  file:
+    path: /etc/systemd/system/docker.service.d/
+    state: directory
+
+
+- name: Generate an OpenSSL private key with the default values (4096 bits, RSA)
+  openssl_privatekey:
+    path: /etc/ssl/private/ca-key.pem
+
+- name: Generate an OpenSSL Certificate Signing Request for CA
+  openssl_csr:
+    path: /etc/ssl/csr/ca.csr
+    privatekey_path: /etc/ssl/private/ca-key.pem
+    basic_constraints: "CA:TRUE"
+    commonName: "CA:TRUE"
+    common_name: docker
+    mode: 0666
+
+- name: Generate the CA
+  openssl_certificate:
+    path: /etc/ssl/crt/ca.crt
+    csr_path: /etc/ssl/csr/ca.csr
+    privatekey_path: /etc/ssl/private/ca-key.pem
+    provider: selfsigned
+
+- name: Generate the Server private key
+  openssl_privatekey:
+    path: /etc/ssl/server/private/server-key.pem
+
+- name: retrive the ip
+  set_fact:
+    ip: "{{ item }}"
+  with_items: "{{ ansible_all_ipv4_addresses }}"
+  when: "item.startswith('192.168.33')"
+
+- name: Generate an OpenSSL Certificate Signing Request for the server
+  openssl_csr:
+    path: /etc/ssl/server/csr/server.csr
+    privatekey_path: /etc/ssl/server/private/server-key.pem
+    common_name: "{{ inventory_hostname }}"
+    subject_alt_name: "DNS:{{inventory_hostname}},IP:{{ip}}"
+    extended_key_usage: serverAuth
+
+- name: Generate the Server Certificate
+  openssl_certificate:
+    path: /etc/ssl/server/crt/server.crt
+    privatekey_path: /etc/ssl/server/private/server-key.pem
+    csr_path: /etc/ssl/server/csr/server.csr
+    ownca_path: /etc/ssl/crt/ca.crt
+    ownca_privatekey_path: /etc/ssl/private/ca-key.pem
+    provider: ownca
+
+- name: Generate the Client private key
+  openssl_privatekey:
+    path: /etc/ssl/client/private/client-key.pem
+
+- name: Generate an OpenSSL Certificate Signing Request for the client
+  openssl_csr:
+    path: /etc/ssl/client/csr/client.csr
+    privatekey_path: /etc/ssl/client/private/client-key.pem
+    common_name: "client"
+    extended_key_usage: clientAuth
+
+- name: Generate the CLient Certificate
+  openssl_certificate:
+    path: /etc/ssl/client/crt/client.crt
+    privatekey_path: /etc/ssl/client/private/client-key.pem
+    ownca_path: /etc/ssl/crt/ca.crt
+    ownca_privatekey_path: /etc/ssl/private/ca-key.pem
+    csr_path: /etc/ssl/client/csr/client.csr
+    provider: ownca
+
+- name: Copy docker configuration
+  copy: 
+    src: override.conf
+    dest: /etc/systemd/system/docker.service.d/override.conf
+
+- name: Copy docker configuration
+  copy: 
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+
+- name: Fetch required certificates for the secure connections
+  fetch:
+    src: "{{item}}"
+    dest: "/tmp/{{item}}"
+    flat: yes
+  with_items:
+    - /etc/ssl/crt/ca.crt
+    - /etc/ssl/client/private/client-key.pem
+    - /etc/ssl/client/crt/client.crt
+
+- name: Restart docker
+  service:
+    name: docker
+    state: restarted
+    daemon_reload: yes
+
+
+
+
+
+
+
