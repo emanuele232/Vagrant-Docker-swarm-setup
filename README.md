@@ -2,3 +2,51 @@
 
 # Vagrant-DockerSwarm-setup
 A Vagrant configurations that deploys a Docker swarm using Ansible
+
+## Tasklist
+
+- Deploy two CentOs
+- Configure the VMs with 50 GB of space
+- Deploy Docker on the VMs
+  - Expose REST API 
+  - configure the API to use tls
+- Configure a Docker Swarm, one vm will be the master the other will be the Worker
+
+The VMs are configured using Ansible
+The code on github uses travis + ansible-lint for CI
+It is nice to test using Molecule
+
+## Resources used
+
+- Vagrant configuration: [six ansible pratices](https://max.engineer/six-ansible-practices)
+- Docker installation: [ansible-role-docker](https://github.com/geerlingguy/ansible-role-docker)
+- Protect the Docker: socker [docker documentation](https://docs.docker.com/engine/security/https/) or the better-formatted [secure docker API](https://blog.eduonix.com/software-development/learn-secure-docker-api-using-ssltls/)
+- Configure the Docker swarm: [Docker swarm doc.](https://docs.docker.com/engine/swarm/) 
+
+# Using this Tool
+*quick how-to*
+## requirements
+- ansible
+- vagrant 
+  - vagrant plugins *vagrant-disksize* (vagrant hostupdater is reccomended)
+
+## Usage
+The usage consist in creating the virtual machines with
+
+    vagrant up
+
+and running the ansible playbook with
+
+    ansible-playbook -i hosts  playbook.yml 
+
+## Connecting to the swarm from your local machine
+To connect to the swarm using the protected REST API you have to install *docker-ce* and fire the command:
+
+    docker --tlsverify --tlscacert=ca.crt --tlscert=/client.crt --tlskey=/client-key.pem -H={{ HOST }}:2376 node ls
+
+Where the variable HOST is one of the VMs.
+
+*the command node ls will return the nodes connected to the swarm*
+
+
+
