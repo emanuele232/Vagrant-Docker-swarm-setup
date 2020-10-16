@@ -31,7 +31,17 @@ It is nice to test using Molecule
   - vagrant plugins *vagrant-disksize* (vagrant hostupdater is reccomended)
 
 ## ssh config
-I used a config file for ssh to ease tge connection to the vms
+I used a config file for ssh to ease the connection to the vms
+
+  #For vagrant virtual machines
+  Host 192.168.33.* *.myapp.dev
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+  User root
+  LogLevel ERROR
+
+This config file will ensure the use of root when connecting throught ssh and ignore ssh host check
+
 
   # For vagrant virtual machines
   Host 192.168.33.* *.myapp.dev
