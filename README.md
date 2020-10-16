@@ -30,6 +30,20 @@ It is nice to test using Molecule
 - vagrant 
   - vagrant plugins *vagrant-disksize* (vagrant hostupdater is reccomended)
 
+## ssh config
+I used a config file for ssh to ease tge connection to the vms
+
+  # For vagrant virtual machines
+  Host 192.168.33.* *.myapp.dev
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+  User root
+  LogLevel ERROR
+
+This allows to connect as root by default when connecting through ssh (ansible) and disable ssh checks on the hosts.
+
+
+
 ## Usage
 The usage consist in creating the virtual machines with
 
