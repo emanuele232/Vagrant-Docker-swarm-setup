@@ -1,3 +1,0 @@
-- name: misc task on ubuntu 18.04 instance
-  debug: 
-    var: ansible_host
