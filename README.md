@@ -20,7 +20,7 @@ It is nice to test using Molecule
 
 - Vagrant configuration: [six ansible pratices](https://max.engineer/six-ansible-practices)
 - Docker installation: [ansible-role-docker](https://github.com/geerlingguy/ansible-role-docker)
-- Protect the Docker: socker [docker documentation](https://docs.docker.com/engine/security/https/) or the better-formatted [secure docker API](https://blog.eduonix.com/software-development/learn-secure-docker-api-using-ssltls/)
+- Protect the Docker sockert: [docker documentation](https://docs.docker.com/engine/security/https/) or the better-formatted [secure docker API](https://blog.eduonix.com/software-development/learn-secure-docker-api-using-ssltls/)
 - Configure the Docker swarm: [Docker swarm doc.](https://docs.docker.com/engine/swarm/) 
 
 # Using this Tool
