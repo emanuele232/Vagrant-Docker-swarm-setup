@@ -33,7 +33,6 @@
     path: /etc/ssl/csr/ca.csr
     privatekey_path: /etc/ssl/private/ca-key.pem
     basic_constraints: "CA:TRUE"
-    commonName: "CA:TRUE"
     common_name: docker
     mode: 0666
 
@@ -90,6 +89,24 @@
     ownca_privatekey_path: /etc/ssl/private/ca-key.pem
     csr_path: /etc/ssl/client/csr/client.csr
     provider: ownca
+
+- name: secure the extended_key_usage
+  file:
+   path: /etc/ssl/{{ item }}
+   mode: 0400
+  with_items:
+    - private/ca-key.pem
+    - server/private/server-key.pem
+    - client/private/client-key.pem
+
+- name: secure the extended_key_usage
+  file:
+   path: /etc/ssl/{{ item }}
+   mode: 0444
+  with_items:
+    - crt/ca.crt
+    - server/crt/server.crt
+    - client/crt/client.crt
 
 - name: Copy docker configuration
   copy:
